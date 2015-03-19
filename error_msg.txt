@@ -1,0 +1,36 @@
+==4504== Memcheck, a memory error detector
+==4504== Copyright (C) 2002-2011, and GNU GPL'd, by Julian Seward et al.
+==4504== Using Valgrind-3.7.0 and LibVEX; rerun with -h for copyright info
+==4504== Command: ./transpose
+==4504== 
+==4504== Invalid read of size 4
+==4504==    at 0x8048595: main (transpose.c:19)
+==4504==  Address 0x41ab064 is 0 bytes after a block of size 60 alloc'd
+==4504==    at 0x4028308: malloc (vg_replace_malloc.c:263)
+==4504==    by 0x8048510: main (transpose.c:11)
+==4504== 
+==4504== Use of uninitialised value of size 4
+==4504==    at 0x80485A1: main (transpose.c:19)
+==4504== 
+==4504== Syscall param write(buf) points to uninitialised byte(s)
+==4504==    at 0x410D9D3: __write_nocancel (syscall-template.S:82)
+==4504==    by 0x40B177E: new_do_write (fileops.c:530)
+==4504==    by 0x40B1A95: _IO_do_write@@GLIBC_2.1 (fileops.c:503)
+==4504==    by 0x40B257C: _IO_file_overflow@@GLIBC_2.1 (fileops.c:881)
+==4504==    by 0x40B3B4D: _IO_flush_all_lockp (genops.c:849)
+==4504==    by 0x40B47AF: _IO_cleanup (genops.c:1010)
+==4504==    by 0x40751D5: __run_exit_handlers (exit.c:91)
+==4504==    by 0x407529E: exit (exit.c:100)
+==4504==    by 0x405CE4D: (below main) (libc-start.c:276)
+==4504==  Address 0x4031028 is not stack'd, malloc'd or (recently) free'd
+==4504== 
+==4504== 
+==4504== HEAP SUMMARY:
+==4504==     in use at exit: 0 bytes in 0 blocks
+==4504==   total heap usage: 16 allocs, 16 frees, 285 bytes allocated
+==4504== 
+==4504== All heap blocks were freed -- no leaks are possible
+==4504== 
+==4504== For counts of detected and suppressed errors, rerun with: -v
+==4504== Use --track-origins=yes to see where uninitialised values come from
+==4504== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 11 from 6)
