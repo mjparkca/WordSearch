@@ -1,13 +1,16 @@
-CC=gcc
-CXXFLAGS=-g
+all: wordsearch
 
-all: readBoard transpose writeBoard reverse
-readBoard:
-transpose:
-writeBoard:
-reverse:
+wordsearch: searchWord.o Board.o CharList.o CharNode.o
+	gcc -o wordsearch main.c searchWord.o Board.o CharList.o CharNode.o
+
+searchWord.o:
+Board.o:
+CharList.o:
+CharNode.o:
+
 clean:
-	rm -f readBoard transpose writeBoard reverse *.o core*
+	rm -f wordsearch *.o
+
 new:
 	make clean
 	make

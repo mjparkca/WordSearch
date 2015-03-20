@@ -1,0 +1,10 @@
+March 19, 2015
+add gui extension (gtk frontend)
+use Knuth-Morris-Pratt algorithm to optimize search
+http://en.wikipedia.org/wiki/Knuth-Morris-Pratt_algorithm
+do extensive testing using more test cases
+refactor into smaller functions and modules, removing duplicate logic
+add rigorious error checking
+fix layer violation in searchWord()
+rename functions so that the names make sense
+comment thoroughly
