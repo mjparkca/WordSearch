@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include "wordsearch.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   int i, j;
   FILE *board_input, *word_input, *board_output;
   Board *board;
@@ -14,7 +13,7 @@ int main(int argc, char *argv[])
   if (argc < 4)
   {
     fprintf(stderr, "Usage: %s board_input word_input board_output\n", argv[0]);
-    return EXIT_FAILURE;
+    return -1;
   }
   board_input = fopen(argv[1], "r");
   word_input = fopen(argv[2], "r");
@@ -53,5 +52,5 @@ int main(int argc, char *argv[])
   deleteList(&min_obv_list);
   deleteList(&min_rev_list);
 
-  return EXIT_SUCCESS;
+  return 0;
 }

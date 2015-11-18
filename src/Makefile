@@ -9,7 +9,7 @@ CharList.o:
 CharNode.o:
 
 clean:
-	rm -f wordsearch *.o
+	rm -f ../bin/*
 
 new:
 	make clean
