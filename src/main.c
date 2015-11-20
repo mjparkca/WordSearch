@@ -10,8 +10,7 @@ int main(int argc, char *argv[]) {
   List *maj_obv_list, *maj_rev_list;
   List *min_obv_list, *min_rev_list;
 
-  if (argc < 4)
-  {
+  if (argc < 4) {
     fprintf(stderr, "Usage: %s board_input word_input board_output\n", argv[0]);
     return -1;
   }

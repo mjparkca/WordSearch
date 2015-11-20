@@ -3,6 +3,17 @@
 
 #include <stdio.h>
 
+typedef enum Direction {
+    NORTHWEST
+  , NORTH
+  , NORTHEAST
+  , WEST
+  , EAST
+  , SOUTHWEST
+  , SOUTH
+  , SOUTHEAST
+} Direction;
+
 /* 2 by 2 char array with dimensions */
 typedef struct Board {
   int width;

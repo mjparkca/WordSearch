@@ -36,8 +36,7 @@ static gboolean cb_draw(GtkWidget *, cairo_t *, gpointer);
 static void drawBound(cairo_t *, struct Coord, struct Coord, double, double);
 static void create_controls(struct Board *);
 
-static struct Board *newBoard(FILE *board_input, FILE *answer)
-{
+static struct Board *newBoard(FILE *board_input, FILE *answer) {
   int i, m, n;
   char *buf;
   struct Board *board;
@@ -50,8 +49,7 @@ static struct Board *newBoard(FILE *board_input, FILE *answer)
   board->content = (char *)calloc(m * n + 1, sizeof(char));
   buf = (char *)malloc((n + 2) * sizeof(char));
   fgetc(board_input);
-  for (i = 0; i < m; ++i)
-  {
+  for (i = 0; i < m; ++i) {
     fgets(buf, n + 2, board_input);
     strncpy(board->content + i * n, buf, n);
   }
@@ -62,8 +60,7 @@ static struct Board *newBoard(FILE *board_input, FILE *answer)
   return board;
 }
 
-static void deleteBoard(struct Board **bpp)
-{
+static void deleteBoard(struct Board **bpp) {
   struct Board *board;
 
   board = *bpp;
@@ -75,8 +72,7 @@ static void deleteBoard(struct Board **bpp)
   *bpp = NULL;
 }
 
-static struct Coord readCoord(char *left)
-{
+static struct Coord readCoord(char *left) {
   struct Coord coord;
   char *comma, *right;
   comma = strchr(left, ',');
@@ -87,8 +83,7 @@ static struct Coord readCoord(char *left)
   return coord;
 }
 
-static struct CoordPairList *newCoordPairList(FILE *answer)
-{
+static struct CoordPairList *newCoordPairList(FILE *answer) {
   struct CoordPairList *root, *working;
   char buf[BUFSIZ] = {0};
   char *start, *end;
@@ -102,8 +97,7 @@ static struct CoordPairList *newCoordPairList(FILE *answer)
   root->next = NULL;
   working = root;
   fgets(buf, BUFSIZ, answer);
-  while (!feof(answer))
-  {
+  while (!feof(answer)) {
     working->next = (struct CoordPairList *)malloc(sizeof(struct CoordPairList));
     start = strchr(buf, '(');
     end = strrchr(buf, '(');
@@ -117,11 +111,9 @@ static struct CoordPairList *newCoordPairList(FILE *answer)
   return root;
 }
 
-static void deleteCoordPairList(struct CoordPairList **lpp)
-{
+static void deleteCoordPairList(struct CoordPairList **lpp) {
   struct CoordPairList *list;
-  if (lpp == NULL || *lpp == NULL)
-  {
+  if (lpp == NULL || *lpp == NULL) {
     return;
   }
   list = *lpp;
@@ -130,18 +122,15 @@ static void deleteCoordPairList(struct CoordPairList **lpp)
   *lpp = NULL;
 }
 
-static FILE *printCoordPairList(struct CoordPairList *coords, FILE *stream)
-{
-  while (coords)
-  {
+static FILE *printCoordPairList(struct CoordPairList *coords, FILE *stream) {
+  while (coords) {
     fprintf(stream, "(%d,%d) (%d,%d)\n", coords->start.row, coords->start.col, coords->end.row, coords->end.col);
     coords = coords->next;
   }
   return stream;
 }
 
-static gboolean cb_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
-{
+static gboolean cb_draw(GtkWidget *widget, cairo_t *cr, gpointer data) {
   int i, j, m, n;
   double x, y, px, ux, uy;
   guint canvas_width, canvas_height;
@@ -171,10 +160,8 @@ static gboolean cb_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
   x = (canvas_width * px - n * fe.max_x_advance) / 2.0;
   y = (canvas_height * px - m * fe.max_x_advance) / 2.0;
 
-  for (i = 0; i < m; ++i)
-  {
-    for (j = 0; j < n; ++j)
-    {
+  for (i = 0; i < m; ++i) {
+    for (j = 0; j < n; ++j) {
       *letter = '\0';
       strncat(letter, board_info->content + i * n + j, 1);
 
@@ -189,8 +176,7 @@ static gboolean cb_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
   cairo_set_source_rgba(cr, 0.5, 0.0, 0.0, 0.5);
   cairo_set_line_width(cr, px);
 
-  while (coords)
-  {
+  while (coords) {
     drawBound(cr, coords->start, coords->end, x, y);
     coords = coords->next;
   }
@@ -199,8 +185,7 @@ static gboolean cb_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
 }
 
 static void drawBound(cairo_t *cr, struct Coord start, struct Coord end,
-                                                      double x, double y)
-{
+                                                      double x, double y) {
   int x_disp, y_disp;
   double ux, uy, px, size;
   double ax, ay;
@@ -219,26 +204,18 @@ static void drawBound(cairo_t *cr, struct Coord start, struct Coord end,
   angle1 = 0;
   angle2 = 2 * M_PI;
 
-  if (start.col < end.col)
-  {
+  if (start.col < end.col) {
     pt1 = start;
     pt2 = end;
-  }
-  else if (start.col == end.col)
-  {
-    if (start.row < end.row)
-    {
+  } else if (start.col == end.col) {
+    if (start.row < end.row) {
       pt1 = start;
       pt2 = end;
-    }
-    else
-    {
+    } else {
       pt1 = end;
       pt2 = start;
     }
-  }
-  else
-  {
+  } else {
     pt1 = end;
     pt2 = start;
   }
@@ -251,29 +228,22 @@ static void drawBound(cairo_t *cr, struct Coord start, struct Coord end,
   y_disp = pt2.row - pt1.row;
   dist = radius / sqrt(2);
 
-  if (pt1.col < pt2.col && pt1.row == pt2.row)
-  {
+  if (pt1.col < pt2.col && pt1.row == pt2.row) {
     ax = c1x;
     ay = c1y + radius;
     angle1 = M_PI / 2.0;
     angle2 = 3.0 * M_PI / 2.0;
-  }
-  else if (pt1.col == pt2.col && pt1.row < pt2.row)
-  {
+  } else if (pt1.col == pt2.col && pt1.row < pt2.row) {
     ax = c1x - radius;
     ay = c1y;
     angle1 = M_PI;
     angle2 = 2.0 * M_PI;
-  }
-  else if (pt1.col < pt2.col && pt1.row < pt2.row)
-  {
+  } else if (pt1.col < pt2.col && pt1.row < pt2.row) {
     ax = c1x - dist;
     ay = c1y + dist;
     angle1 = 3.0 * M_PI / 4.0;
     angle2 = 7.0 * M_PI / 4.0;
-  }
-  else
-  {
+  } else {
     ax = c1x + dist;
     ay = c1y + dist;
     angle1 = M_PI / 4.0;
@@ -289,8 +259,7 @@ static void drawBound(cairo_t *cr, struct Coord start, struct Coord end,
   cairo_stroke(cr);
 }
 
-static void create_controls(struct Board *board)
-{
+static void create_controls(struct Board *board) {
   GtkWidget *window;
   GtkWidget *box;
   GtkWidget *drawing_area;
@@ -329,27 +298,23 @@ static void create_controls(struct Board *board)
   gtk_widget_show(window);
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   FILE *board_input, *answer_input;
   struct Board *board_info;
 
-  if (argc < 3)
-  {
+  if (argc < 3) {
     fprintf(stderr, "Usage: %s board_input answer_input\n", argv[0]);
     return EXIT_FAILURE;
   }
 
   board_input = fopen(argv[1], "r");
-  if (!board_input)
-  {
+  if (!board_input) {
     perror("fopen");
     return EXIT_FAILURE;
   }
 
   answer_input = fopen(argv[2], "r");
-  if (!answer_input)
-  {
+  if (!answer_input) {
     perror("fopen");
     return EXIT_FAILURE;
   }

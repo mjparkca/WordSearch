@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include "wordsearch.h"
 
-Board *readBoard(FILE *board_input)
-{
+Board *readBoard(FILE *board_input) {
   int i, j, m, n;
   Board *retval;
   char *buf;
@@ -11,16 +10,13 @@ Board *readBoard(FILE *board_input)
   retval->width = n;
   retval->height = m;
   retval->board = (char **)malloc(m * sizeof(char *));
-  for (i = 0; i < m; ++i)
-  {
+  for (i = 0; i < m; ++i) {
     retval->board[i] = (char *)malloc(n * sizeof(char));
   }
   buf = (char *)malloc(n * sizeof(char) + 1);
-  for (i = 0; i < m; ++i)
-  {
+  for (i = 0; i < m; ++i) {
     fscanf(board_input, "%s", buf);
-    for (j = 0; j < n; ++j)
-    {
+    for (j = 0; j < n; ++j) {
       retval->board[i][j] = tolower(buf[j]);
     }
   }
@@ -28,12 +24,10 @@ Board *readBoard(FILE *board_input)
   return retval;
 }
 
-void deleteBoard(Board ** bpp)
-{
+void deleteBoard(Board ** bpp) {
   int i, j;
   Board *this_board = *bpp;
-  for (i = 0; i < this_board->height; ++i)
-  {
+  for (i = 0; i < this_board->height; ++i) {
     free(this_board->board[i]);
   }
   free(this_board->board);
